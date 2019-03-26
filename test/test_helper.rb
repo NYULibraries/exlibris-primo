@@ -14,7 +14,7 @@ require 'webmock'
 
 # To allow us to do real HTTP requests in a VCR.turned_off, we
 # have to tell webmock to let us.
-WebMock.allow_net_connect!(:net_http_connect_on_start => true)
+# WebMock.allow_net_connect!(:net_http_connect_on_start => true)
 
 VCR.configure do |c|
   c.cassette_library_dir = 'test/vcr_cassettes'
