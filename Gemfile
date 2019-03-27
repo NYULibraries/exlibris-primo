@@ -8,6 +8,9 @@ gemspec
 platforms :jruby do
   gem 'jruby-openssl', '~> 0.9.0'
   gem 'nokogiri', '= 1.8.1'
+  gem 'minitest', '= 4.7.5'
+  gem 'savon', '= 2.11.0'
+  gem 'rake', '~> 10.1'
 end
 
 group :test do
