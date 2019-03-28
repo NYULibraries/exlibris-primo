@@ -18,6 +18,7 @@ module WebService
           :institution => @institution, :doc_id => @doc_id
         assert_request request, "fullViewRequest",
           "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+          "<RequestParams/>"+
           "<QueryTerms><BoolOpeator>AND</BoolOpeator></QueryTerms>"+
           "<StartIndex>1</StartIndex>"+
           "<BulkSize>5</BulkSize>"+
@@ -37,6 +38,7 @@ module WebService
           request.add_query_term @issn, "isbn", "exact"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>isbn</IndexField>"+
             "<PrecisionOperator>exact</PrecisionOperator>"+
@@ -59,6 +61,7 @@ module WebService
           request.add_query_term @isbn, "isbn", "exact"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>isbn</IndexField>"+
             "<PrecisionOperator>exact</PrecisionOperator>"+
@@ -81,6 +84,7 @@ module WebService
           request.add_query_term @title, "title"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>title</IndexField>"+
             "<PrecisionOperator>contains</PrecisionOperator>"+
@@ -104,6 +108,7 @@ module WebService
           request.add_query_term "Digital dvide", "title"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>title</IndexField>"+
             "<PrecisionOperator>contains</PrecisionOperator>"+
@@ -126,6 +131,7 @@ module WebService
           request.add_query_term @author, "creator"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>creator</IndexField>"+
             "<PrecisionOperator>contains</PrecisionOperator>"+
@@ -148,6 +154,7 @@ module WebService
           request.add_query_term @genre, "any", "exact"
           assert_request request, "searchRequest",
             "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+            "<RequestParams/>"+
             "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
             "<IndexField>any</IndexField>"+
             "<PrecisionOperator>exact</PrecisionOperator>"+
@@ -163,7 +170,7 @@ module WebService
             }
           end
       end
-      
+
       def test_search_locations
         request = Exlibris::Primo::WebService::Request::Search.new :base_url => @base_url
         request.institution = @institution
@@ -171,6 +178,7 @@ module WebService
         request.add_location "local", "scope:(NYU)"
         assert_request request, "searchRequest",
           "<PrimoSearchRequest xmlns=\"http://www.exlibris.com/primo/xsd/search/request\">"+
+          "<RequestParams/>"+
           "<QueryTerms><BoolOpeator>AND</BoolOpeator><QueryTerm>"+
           "<IndexField>isbn</IndexField>"+
           "<PrecisionOperator>exact</PrecisionOperator>"+
@@ -215,8 +223,8 @@ module WebService
                     "<Value>Book</Value></QueryTerm>"].include? xmlize(great_grand_child)
                 end
               else
-                assert ["<StartIndex>1</StartIndex>", "<BulkSize>5</BulkSize>", 
-                  "<DidUMeanEnabled>false</DidUMeanEnabled>"].include? xmlize(grand_child)
+                assert ["<StartIndex>1</StartIndex>", "<BulkSize>5</BulkSize>",
+                  "<DidUMeanEnabled>false</DidUMeanEnabled>", "<RequestParams/>"].include? xmlize(grand_child)
               end
             end
           else

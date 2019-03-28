@@ -65,6 +65,25 @@ Or
       institution!("INSTITUTION").title_begins_with("Travels").
         creator_contains("Greene").genre_is("Book")
 
+Search can be expanded when using Ex Libris Primo Central by adding a request parametertrue
+
+     search = Exlibris::Primo::Search.new(:base_url => "http://primo.institution.edu",
+       :institution => "INSTITUTION", :page_size => "20")
+     search.add_query_term "0143039008", "isbn", "exact"
+     search.add_request_param('pc_availability_ind','true') # adding this line will expand the results
+     count = search.size #=> 20+ (assuming there are 20+ records with this isbn)
+     facets = search.facets #=> Array of Primo facets
+     records = search.records #=> Array of Primo records
+     records.size #=> 20 (assuming there are 20+ records with this isbn)
+     records.each do |record_id, record|
+       holdings = record.holdings #=> Array of Primo holdings
+       fulltexts = record.fulltexts #=> Array of Primo full texts
+       table_of_contents = record.table_of_contents #=> Array of Primo tables of contents
+       related_links = record.related_links #=> Array of Primo related links
+     end
+
+
+
 ## Exlibris::Primo::Config
 Exlibris::Primo::Config allows you to specify global configuration parameter for Exlibris::Primo
 

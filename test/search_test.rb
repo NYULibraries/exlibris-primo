@@ -130,7 +130,7 @@ class SearchTest < Test::Unit::TestCase
     VCR.use_cassette('search sort by locations') do
       search = Exlibris::Primo::Search.new.base_url!(@base_url).
         institution!(@institution).any_contains("digital divide").
-          add_sort_by("stitle").add_local_location("scope:(NYU)")
+        add_sort_by("stitle").add_local_location("scope:(NYU)")
       assert_not_nil search.size
       assert_not_nil search.facets
       assert((not search.facets.empty?))
@@ -202,7 +202,7 @@ class SearchTest < Test::Unit::TestCase
     VCR.use_cassette('search enable highlighting') do
       search = Exlibris::Primo::Search.new.base_url!(@base_url).
         institution!(@institution).title_contains("digital divide").
-          enable_highlighting.add_display_field("title")
+        enable_highlighting.add_display_field("title")
       assert_not_nil search.size
       assert_not_nil search.facets
       assert((not search.facets.empty?))
@@ -218,7 +218,7 @@ class SearchTest < Test::Unit::TestCase
     VCR.use_cassette('search sort by') do
       search = Exlibris::Primo::Search.new.base_url!(@base_url).
         institution!(@institution).title_contains("digital divide").
-          add_sort_by("stitle")
+        add_sort_by("stitle")
       assert_not_nil search.size
       assert_not_nil search.facets
       assert((not search.facets.empty?))
@@ -226,10 +226,10 @@ class SearchTest < Test::Unit::TestCase
       assert((not search.records.empty?))
       sorted_titles = []
       search.records.each do |record|
-        sorted_titles<< record.display_title
+        sorted_titles << record.display_title
       end
-      sorted_titles.sort.each_index {|index|
-        assert(sorted_titles[index].eql?(sorted_titles.sort[index]), "Sort failed.")}
+      sorted_titles.sort.each_index { |index|
+        assert(sorted_titles[index].eql?(sorted_titles.sort[index]), "Sort failed.") }
     end
   end
 
@@ -237,7 +237,7 @@ class SearchTest < Test::Unit::TestCase
     VCR.use_cassette('search languages') do
       search = Exlibris::Primo::Search.new.base_url!(@base_url).
         institution!(@institution).title_contains("digital divide").
-          add_language("en")
+        add_language("en")
       assert_not_nil search.size
       assert_not_nil search.facets
       assert((not search.facets.empty?))
@@ -326,8 +326,8 @@ class SearchTest < Test::Unit::TestCase
   def test_and_or_methods
     assert_nothing_raised {
       search = Exlibris::Primo::Search.new
-      assert search.class.public_instance_methods.collect{|m|m.to_sym}.include? :and
-      assert search.class.public_instance_methods.collect{|m|m.to_sym}.include? :or
+      assert search.class.public_instance_methods.collect { |m| m.to_sym }.include? :and
+      assert search.class.public_instance_methods.collect { |m| m.to_sym }.include? :or
       assert_equal "AND", search.send(:search_request).boolean_operator
       assert_equal "OR", search.or.send(:search_request).boolean_operator
       assert_equal "AND", search.and.send(:search_request).boolean_operator
@@ -343,5 +343,17 @@ class SearchTest < Test::Unit::TestCase
       assert_not_nil search.did_u_mean
       assert_equal "digital video", search.did_u_mean
     end
+  end
+
+  def test_add_request_param
+    key = 'pc_availability_ind'
+    value = 'true'
+    search = Exlibris::Primo::Search.new
+    assert_equal search.add_request_param(key, value), search
+
+    search_request = search.send(:search_request)
+    assert_equal search_request.request_params.count, 1
+    assert_equal search_request.request_params.first.key, key
+    assert_equal search_request.request_params.first.value, value
   end
 end

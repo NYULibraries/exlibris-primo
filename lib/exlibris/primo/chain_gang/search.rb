@@ -73,14 +73,28 @@ module Exlibris
           self
         end
 
-        # 
-        # Dynamically sets chainable accessor for indexes and 
+        #
+        # Adds a request param to the search.
+        # Suitable for chaining, e.g.
+        #
+        #     Search.new
+        #       .add_request_param("pc_availability_ind", "true")
+        #       .add_request_param("pyrCategories", "medicine;business")
+        #       .search
+        #
+        def add_request_param(*args)
+          search_request.add_request_param(*args)
+          self
+        end
+
+        #
+        # Dynamically sets chainable accessor for indexes and
         # precisions
         # Suitable for chaining, e.g.
         #
         #     Search.new.title_begins_with("Travels").
         #       creator_contains("Greene").search
-        # 
+        #
         def method_missing(method, *args, &block)
           if matches? method
             self.class.send(:define_method, method) { |value|
