@@ -1,10 +1,10 @@
 language: ruby
 rvm:
   - 2.1.10
-  - 2.2.10 - check
-  - 2.3.8 - check
-  - 2.4.5 - check
-  - 2.5.5 - check
+  - 2.2.10
+  - 2.3.8
+  - 2.4.5
+  - 2.5.5
   - jruby-9.1.8.0
 install: "bundle install --retry=3"
 gemfile:
